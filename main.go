@@ -190,6 +190,9 @@ func SendEventToAPI(newEvent *corev2.Event) error {
 
 	api := fmt.Sprintf("%s/api/core/v2/namespaces/%s/events/%s/%s", url, namespace, newEvent.Entity.Name, newEvent.Check.Name)
 	req, err := http.NewRequest("PUT", api, bytes.NewBuffer(eventBytes))
+	if err != nil {
+		return fmt.Errorf("failed to create http request: %s", err)
+	}
 	req.Header.Set("Authorization", token)
 	req.Header.Set("Content-Type", "application/json")
 
